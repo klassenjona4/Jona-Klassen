@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jona — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;450;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --text: #232733;
+    --text-muted: #565d6e;
+    --text-dim: #8b91a0;
+    --accent: #5b7cfa;
+    --accent-soft: rgba(91, 124, 250, 0.12);
+    --glass-bg: rgba(255, 255, 255, 0.5);
+    --glass-bg-strong: rgba(255, 255, 255, 0.66);
+    --glass-bg-hover: rgba(255, 255, 255, 0.74);
+    --glass-border: rgba(255, 255, 255, 0.7);
+    --glass-shadow: 0 12px 40px rgba(80, 100, 150, 0.13);
+    --glass-shadow-hover: 0 18px 54px rgba(80, 100, 150, 0.2);
+    --radius: 24px;
+    --radius-sm: 16px;
+    --font: -apple-system, BlinkMacSystemFont, 'Inter', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+    --maxw: 1080px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    letter-spacing: -0.011em;
+    background:
+      linear-gradient(135deg, #eef2f8 0%, #e9eef6 40%, #f0ecf6 100%);
+  }
+
+  /* ---------- Interactive frosted background ---------- */
+  .aurora {
+    position: fixed;
+    inset: 0;
+    z-index: -3;
+    overflow: hidden;
+  }
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    will-change: transform;
+  }
+  .blob-1 {
+    width: 48vw; height: 48vw; top: -10vw; left: -6vw;
+    background: radial-gradient(circle, rgba(120, 165, 255, 0.55), transparent 66%);
+    animation: drift1 28s ease-in-out infinite alternate;
+  }
+  .blob-2 {
+    width: 42vw; height: 42vw; top: 6vw; right: -8vw;
+    background: radial-gradient(circle, rgba(255, 190, 150, 0.5), transparent 66%);
+    animation: drift2 34s ease-in-out infinite alternate;
+  }
+  .blob-3 {
+    width: 46vw; height: 46vw; bottom: -16vw; left: 24vw;
+    background: radial-gradient(circle, rgba(170, 210, 180, 0.5), transparent 66%);
+    animation: drift3 31s ease-in-out infinite alternate;
+  }
+  .blob-4 {
+    width: 38vw; height: 38vw; bottom: 2vw; right: 12vw;
+    background: radial-gradient(circle, rgba(195, 175, 255, 0.46), transparent 66%);
+    animation: drift1 36s ease-in-out infinite alternate;
+  }
+  @keyframes drift1 { to { transform: translate(12vw, 9vw) scale(1.14); } }
+  @keyframes drift2 { to { transform: translate(-11vw, 13vw) scale(1.1); } }
+  @keyframes drift3 { to { transform: translate(7vw, -11vw) scale(1.18); } }
+
+  /* mouse-following glow */
+  .cursor-glow {
+    position: fixed;
+    z-index: -2;
+    top: 0; left: 0;
+    width: 620px; height: 620px;
+    margin: -310px 0 0 -310px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.75), rgba(150, 180, 255, 0.18) 42%, transparent 68%);
+    pointer-events: none;
+    transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    will-change: transform;
+  }
+  /* full-canvas frost so the background itself reads like glass */
+  .frost {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    backdrop-filter: blur(48px) saturate(1.25);
+    -webkit-backdrop-filter: blur(48px) saturate(1.25);
+    background: rgba(244, 247, 251, 0.32);
+    pointer-events: none;
+  }
+
+  /* ---------- Glass primitive ---------- */
+  .glass {
+    position: relative;
+    background: var(--glass-bg);
+    backdrop-filter: blur(24px) saturate(1.7);
+    -webkit-backdrop-filter: blur(24px) saturate(1.7);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    overflow: hidden;
+  }
+  .sheen::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 0%), rgba(255, 255, 255, 0.55), transparent 58%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+  .sheen:hover::before { opacity: 1; }
+
+  /* ---------- Nav with fluid glass highlight ---------- */
+  nav {
+    position: fixed;
+    top: 16px; left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 8px 8px 20px;
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(22px) saturate(1.7);
+    -webkit-backdrop-filter: blur(22px) saturate(1.7);
+    border: 1px solid var(--glass-border);
+    border-radius: 100px;
+    box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    max-width: calc(100vw - 28px);
+  }
+  nav .brand { font-weight: 600; font-size: 15px; letter-spacing: -0.02em; margin-right: 14px; }
+  .navlinks { position: relative; display: flex; gap: 4px; }
+  .nav-highlight {
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%;
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 2px 10px rgba(80, 100, 150, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    opacity: 0;
+    transition: transform 0.38s cubic-bezier(0.3, 0.9, 0.3, 1), width 0.38s cubic-bezier(0.3, 0.9, 0.3, 1), opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .navlinks a {
+    position: relative;
+    z-index: 1;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 450;
+    padding: 8px 15px;
+    border-radius: 100px;
+    transition: color 0.25s ease;
+    white-space: nowrap;
+  }
+  .navlinks a:hover { color: var(--text); }
+  nav .cta {
+    margin-left: 8px;
+    padding: 9px 18px;
+    background: var(--text);
+    color: #fff;
+    border-radius: 100px;
+    font-weight: 500;
+    font-size: 13.5px;
+    text-decoration: none;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    white-space: nowrap;
+  }
+  nav .cta:hover { transform: scale(1.04); opacity: 0.9; }
+
+  /* ---------- Layout ---------- */
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding-left: 24px; padding-right: 24px; }
+  section { padding: 116px 0; }
+
+  /* ---------- Photo placeholder ---------- */
+  .photo {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.34);
+    border: 1.5px dashed rgba(120, 140, 180, 0.4);
+    border-radius: var(--radius-sm);
+    color: var(--text-dim);
+    overflow: hidden;
+  }
+  .photo svg { width: 30px; height: 30px; opacity: 0.65; }
+  .photo span { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.04em; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    min-height: 100svh;
+    display: grid;
+    grid-template-columns: 1.25fr 0.85fr;
+    align-items: center;
+    gap: 56px;
+    padding-top: 110px;
+    padding-bottom: 60px;
+  }
+  .hero h1 {
+    font-size: clamp(2.8rem, 8.5vw, 6rem);
+    font-weight: 600;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: 28px;
+  }
+  .hero .lead {
+    font-size: clamp(1.05rem, 2.6vw, 1.45rem);
+    font-weight: 400;
+    color: var(--text-muted);
+    line-height: 1.45;
+    max-width: 480px;
+  }
+  .hero .lead b { color: var(--text); font-weight: 500; }
+  .hero-chips { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 32px; }
+  .chip {
+    font-size: 13px;
+    font-weight: 450;
+    padding: 8px 15px;
+    border-radius: 100px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    color: var(--text);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+  .hero-photo { aspect-ratio: 3 / 4; width: 100%; padding: 6px; }
+  .hero-photo .photo { width: 100%; height: 100%; }
+
+  /* ---------- Section heading ---------- */
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .head { margin-bottom: 44px; max-width: 640px; }
+  .head h2 {
+    font-size: clamp(1.9rem, 4.6vw, 2.9rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.06;
+  }
+  .head p { margin-top: 16px; color: var(--text-muted); font-size: clamp(1rem, 2vw, 1.12rem); max-width: 540px; }
+
+  /* ---------- About ---------- */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 22px;
+    align-items: stretch;
+  }
+  .about-photo { padding: 8px; }
+  .about-photo .photo { width: 100%; height: 100%; min-height: 280px; }
+  .about-text { padding: 40px; display: flex; flex-direction: column; justify-content: center; }
+  .about-text p { color: var(--text-muted); font-size: 1.06rem; margin-bottom: 16px; }
+  .about-text p:last-child { margin-bottom: 0; }
+  .about-text strong { color: var(--text); font-weight: 500; }
+
+  /* ---------- Skills ---------- */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(248px, 1fr));
+    gap: 20px;
+  }
+  .skill { padding: 32px 28px; transition: transform 0.4s cubic-bezier(0.2,0.8,0.2,1), box-shadow 0.4s ease, background 0.4s ease; }
+  .skill:hover { transform: translateY(-6px); box-shadow: var(--glass-shadow-hover), inset 0 1px 0 rgba(255,255,255,0.6); background: var(--glass-bg-hover); }
+  .skill .icn {
+    width: 48px; height: 48px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 14px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    margin-bottom: 22px;
+  }
+  .skill .icn svg { width: 23px; height: 23px; }
+  .skill h3 { font-size: 1.24rem; font-weight: 550; letter-spacing: -0.02em; margin-bottom: 11px; }
+  .skill > p { color: var(--text-muted); font-size: 0.96rem; margin-bottom: 18px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 7px; }
+  .tag {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    padding: 5px 11px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid var(--glass-border);
+    color: var(--text-muted);
+  }
+
+  /* ---------- Work ---------- */
+  .work-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  .project {
+    padding: 16px 16px 30px;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.4s cubic-bezier(0.2,0.8,0.2,1), box-shadow 0.4s ease, background 0.4s ease;
+  }
+  .project:hover { transform: translateY(-6px); box-shadow: var(--glass-shadow-hover), inset 0 1px 0 rgba(255,255,255,0.6); background: var(--glass-bg-hover); }
+  .project-thumb { width: 100%; aspect-ratio: 16 / 10; margin-bottom: 22px; }
+  .project-thumb .photo { width: 100%; height: 100%; }
+  .project .pbody { padding: 0 16px; }
+  .project .ptop { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-bottom: 12px; }
+  .project .pnum { font-family: var(--mono); font-size: 12px; color: var(--text-dim); letter-spacing: 0.05em; }
+  .project .parrow {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1px solid var(--glass-border);
+    background: rgba(255,255,255,0.5);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-muted); flex-shrink: 0;
+    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  }
+  .project:hover .parrow { background: var(--accent); color: #fff; transform: rotate(-45deg); }
+  .project h3 { font-size: 1.4rem; font-weight: 550; letter-spacing: -0.025em; margin-bottom: 10px; }
+  .project p { color: var(--text-muted); font-size: 0.97rem; margin-bottom: 18px; }
+  .project .pstack { display: flex; flex-wrap: wrap; gap: 7px; }
+  .project .pstack span { font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+  .project .pstack span::after { content: '·'; margin-left: 7px; color: rgba(120,140,180,0.5); }
+  .project .pstack span:last-child::after { content: ''; }
+
+  /* ---------- Contact ---------- */
+  .contact { text-align: center; padding: 58px 40px; }
+  .contact h2 { font-size: clamp(2rem, 5.5vw, 3.4rem); font-weight: 600; letter-spacing: -0.035em; line-height: 1.04; margin-bottom: 20px; }
+  .contact p { color: var(--text-muted); font-size: 1.08rem; max-width: 460px; margin: 0 auto 34px; }
+  .contact-actions { display: flex; flex-wrap: wrap; gap: 13px; justify-content: center; }
+  .btn {
+    padding: 14px 28px; border-radius: 100px; font-weight: 500; font-size: 15px;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 9px;
+    transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s ease;
+  }
+  .btn-primary { background: var(--text); color: #fff; }
+  .btn-primary:hover { transform: scale(1.04); opacity: 0.9; }
+  .btn-ghost { background: rgba(255,255,255,0.55); color: var(--text); border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow); }
+  .btn-ghost:hover { background: rgba(255,255,255,0.8); }
+
+  footer { padding: 36px 0 52px; text-align: center; color: var(--text-dim); font-size: 13px; }
+  footer .ph { color: var(--accent); font-family: var(--mono); }
+
+  /* ---------- Reveal ---------- */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s cubic-bezier(0.2,0.8,0.2,1), transform 0.8s cubic-bezier(0.2,0.8,0.2,1); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 860px) {
+    .hero { grid-template-columns: 1fr; gap: 40px; padding-top: 120px; min-height: auto; }
+    .hero-photo { max-width: 340px; aspect-ratio: 4 / 3; }
+    .about-grid { grid-template-columns: 1fr; }
+    .about-photo .photo { min-height: 220px; }
+    .work-grid { grid-template-columns: 1fr; }
+    .navlinks { display: none; }
+    .nav-highlight { display: none; }
+    section { padding: 80px 0; }
+  }
+  @media (max-width: 480px) {
+    .about-text, .skill, .contact { padding: 26px 22px; }
+    .hero-chips .chip { font-size: 12px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .blob { animation: none; }
+    .cursor-glow { transition: none; }
+    .reveal { transition: opacity 0.3s ease; transform: none; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="aurora">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+</div>
+<div class="cursor-glow" id="glow"></div>
+<div class="frost"></div>
+
+<nav>
+  <span class="brand">Jona</span>
+  <div class="navlinks" id="navlinks">
+    <span class="nav-highlight" id="navhl"></span>
+    <a href="#about">Über mich</a>
+    <a href="#skills">Skills</a>
+    <a href="#work">Projekte</a>
+  </div>
+  <a href="#contact" class="cta">Kontakt</a>
+</nav>
+
+<header class="hero wrap">
+  <div>
+    <h1 class="reveal">Hi, ich<br>bin Jona.</h1>
+    <p class="lead reveal">Ich bringe mir gerade selbst bei, mit <b>Kamera und Code</b> Dinge zu bauen. Hier zeige ich, was dabei bisher entstanden ist — und woran ich noch lerne.</p>
+    <div class="hero-chips reveal">
+      <span class="chip">Filmen & Schnitt</span>
+      <span class="chip">Web-Development</span>
+      <span class="chip">Automatisierung</span>
+      <span class="chip">Ausdauersport</span>
+    </div>
+  </div>
+  <div class="hero-photo glass sheen reveal">
+    <div class="photo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="9" r="3.2"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>
+      <span>Portrait-Foto</span>
+    </div>
+  </div>
+</header>
+
+<section id="about" class="wrap">
+  <div class="head reveal">
+    <h2>Noch am Anfang — aber neugierig.</h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-photo glass sheen reveal">
+      <div class="photo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="m3 17 5-4 4 3 3-2 6 5"/></svg>
+        <span>Foto von mir / beim Drehen</span>
+      </div>
+    </div>
+    <div class="about-text glass sheen reveal">
+      <p>Ich bin im Gap Year in der Nähe von Köln und probiere viel aus. Das meiste, was ich kann, habe ich mir <strong>selbst beigebracht</strong> — durch Tutorials, eigene Projekte und viel Trial and Error.</p>
+      <p>Angefangen hat es mit dem <strong>Filmen</strong>: Kamera, Schnitt, Farbe. Daraus ist die Lust gewachsen, auch eigene <strong>kleine Tools und Websites</strong> zu programmieren und Abläufe zu automatisieren. Ich bin noch lange nicht fertig damit — genau das macht es spannend.</p>
+      <p>Was ich suche, ist eine Stelle oder ein Projekt, bei dem ich <strong>dazulernen</strong> und meine Sachen an echten Aufgaben weiterentwickeln kann.</p>
+    </div>
+  </div>
+</section>
+
+<section id="skills" class="wrap">
+  <div class="head reveal">
+    <h2>Womit ich mich beschäftige.</h2>
+    <p>Drei Bereiche, in die ich mich selbst eingearbeitet habe — Stück für Stück, und immer noch am Lernen.</p>
+  </div>
+  <div class="skills-grid">
+    <div class="skill glass sheen reveal">
+      <div class="icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 6h12v12H2z"/><path d="M14 9l8-3v12l-8-3"/></svg></div>
+      <h3>Filmen & Schnitt</h3>
+      <p>Drehen mit der Sony FX3 und Bearbeiten in DaVinci Resolve — ich lerne gerade, Farbe und Look gezielt zu setzen.</p>
+      <div class="tags">
+        <span class="tag">Sony FX3</span>
+        <span class="tag">DaVinci Resolve</span>
+        <span class="tag">Color Grading</span>
+      </div>
+    </div>
+    <div class="skill glass sheen reveal">
+      <div class="icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 6l-6 6 6 6M16 6l6 6-6 6"/></svg></div>
+      <h3>Web-Development</h3>
+      <p>Kleine Web-Apps mit React und Firebase. Ich baue Sachen, die ich selbst nutze, und lerne dabei das Handwerk.</p>
+      <div class="tags">
+        <span class="tag">React</span>
+        <span class="tag">TypeScript</span>
+        <span class="tag">Firebase</span>
+      </div>
+    </div>
+    <div class="skill glass sheen reveal">
+      <div class="icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></div>
+      <h3>Automatisierung</h3>
+      <p>Erste Schritte mit Make.com und Python, um wiederkehrende Aufgaben rund ums Video abzunehmen.</p>
+      <div class="tags">
+        <span class="tag">Make.com</span>
+        <span class="tag">Python</span>
+        <span class="tag">Workflows</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="work" class="wrap">
+  <div class="head reveal">
+    <h2>Sachen, die ich gebaut habe.</h2>
+    <p>Übungsprojekte, an denen ich Neues ausprobiert und gelernt habe. Foto-Platzhalter kannst du durch Screenshots ersetzen.</p>
+  </div>
+  <div class="work-grid">
+    <a href="#" class="project glass sheen reveal">
+      <div class="project-thumb"><div class="photo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="m3 17 5-4 4 3 3-2 6 5"/></svg>
+        <span>Screenshot LifeOS</span>
+      </div></div>
+      <div class="pbody">
+        <div class="ptop"><span class="pnum">01</span><span class="parrow"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        <h3>LifeOS</h3>
+        <p>Eine kleine App, mit der ich Training, Schlaf und Lernen für mich selbst organisiere. Mein größtes Lernprojekt bisher.</p>
+        <div class="pstack"><span>React</span><span>Firebase</span><span>PWA</span></div>
+      </div>
+    </a>
+    <a href="#" class="project glass sheen reveal">
+      <div class="project-thumb"><div class="photo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="m3 17 5-4 4 3 3-2 6 5"/></svg>
+        <span>Still aus Animation</span>
+      </div></div>
+      <div class="pbody">
+        <div class="ptop"><span class="pnum">02</span><span class="parrow"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        <h3>Lernvideos im Code</h3>
+        <p>Erklärvideos zu Physik, komplett mit Remotion programmiert. Spannend zu sehen, wie Code zu Bewegtbild wird.</p>
+        <div class="pstack"><span>Remotion</span><span>Animation</span></div>
+      </div>
+    </a>
+    <a href="#" class="project glass sheen reveal">
+      <div class="project-thumb"><div class="photo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="m3 17 5-4 4 3 3-2 6 5"/></svg>
+        <span>Screenshot Website</span>
+      </div></div>
+      <div class="pbody">
+        <div class="ptop"><span class="pnum">03</span><span class="parrow"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        <h3>Website für eine Gemeinde</h3>
+        <p>Eine einfache Website mit kleinem Admin-Bereich, damit Events selbst gepflegt werden können. Mein erstes Projekt für jemand anderen.</p>
+        <div class="pstack"><span>HTML</span><span>Firebase</span></div>
+      </div>
+    </a>
+    <a href="#" class="project glass sheen reveal">
+      <div class="project-thumb"><div class="photo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="m3 17 5-4 4 3 3-2 6 5"/></svg>
+        <span>Foto / Showreel</span>
+      </div></div>
+      <div class="pbody">
+        <div class="ptop"><span class="pnum">04</span><span class="parrow"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+        <h3>Eigene Videos</h3>
+        <p>Cinematische Clips, an denen ich Kameraführung und Schnitt übe. Platz für dein Showreel oder einzelne Stills.</p>
+        <div class="pstack"><span>FX3</span><span>S-Log3</span><span>Schnitt</span></div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section id="contact" class="wrap">
+  <div class="contact glass sheen reveal">
+    <h2>Sag gern Hallo.</h2>
+    <p>Ich freue mich über Werkstudent-Stellen, Projekte oder einfach Tipps, wie ich besser werden kann.</p>
+    <div class="contact-actions">
+      <a href="mailto:DEINE-EMAIL@example.com" class="btn btn-primary">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>
+        E-Mail schreiben
+      </a>
+      <a href="#" class="btn btn-ghost">YouTube</a>
+      <a href="#" class="btn btn-ghost">Instagram</a>
+      <a href="#" class="btn btn-ghost">GitHub</a>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">
+  Jona — 2026 · <span class="ph">Platzhalter: E-Mail, Links und Fotos noch eintragen</span>
+</footer>
+
+<script>
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // mouse-following background glow
+  const glow = document.getElementById('glow');
+  let gx = window.innerWidth / 2, gy = window.innerHeight / 2;
+  let tx = gx, ty = gy;
+  window.addEventListener('pointermove', e => { tx = e.clientX; ty = e.clientY; });
+  function animateGlow() {
+    gx += (tx - gx) * 0.12;
+    gy += (ty - gy) * 0.12;
+    glow.style.transform = 'translate(' + gx + 'px,' + gy + 'px)';
+    requestAnimationFrame(animateGlow);
+  }
+  if (!reduce) { animateGlow(); } else { glow.style.transform = 'translate(' + gx + 'px,' + gy + 'px)'; }
+
+  // sheen on glass cards
+  if (!reduce) {
+    document.querySelectorAll('.sheen').forEach(el => {
+      el.addEventListener('pointermove', e => {
+        const r = el.getBoundingClientRect();
+        el.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+        el.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+      });
+    });
+  }
+
+  // fluid glass highlight in nav
+  const navlinks = document.getElementById('navlinks');
+  const hl = document.getElementById('navhl');
+  const links = navlinks.querySelectorAll('a');
+  function moveHl(target) {
+    hl.style.opacity = '1';
+    hl.style.width = target.offsetWidth + 'px';
+    hl.style.transform = 'translateX(' + target.offsetLeft + 'px)';
+  }
+  links.forEach(a => a.addEventListener('pointerenter', () => moveHl(a)));
+  navlinks.addEventListener('pointerleave', () => { hl.style.opacity = '0'; });
+
+  // scroll reveal
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach((el, i) => {
+    el.style.transitionDelay = (Math.min(i, 4) * 55) + 'ms';
+    io.observe(el);
+  });
+</script>
+
+</body>
+</html>
