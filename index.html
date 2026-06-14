@@ -4,9 +4,6 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Jona — Portfolio</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;450;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>
   :root {
     --text: #232733;
@@ -22,8 +19,8 @@
     --glass-shadow-hover: 0 18px 54px rgba(80, 100, 150, 0.2);
     --radius: 24px;
     --radius-sm: 16px;
-    --font: -apple-system, BlinkMacSystemFont, 'Inter', system-ui, sans-serif;
-    --mono: 'JetBrains Mono', ui-monospace, monospace;
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --mono: ui-monospace, 'SF Mono', SFMono-Regular, 'Segoe UI Mono', 'Cascadia Mono', Menlo, Consolas, 'Liberation Mono', monospace;
     --maxw: 1080px;
   }
 
@@ -357,6 +354,8 @@
 
   footer { padding: 36px 0 52px; text-align: center; color: var(--text-dim); font-size: 13px; }
   footer .ph { color: var(--accent); font-family: var(--mono); }
+  footer a { color: var(--text-muted); text-decoration: none; }
+  footer a:hover { color: var(--text); }
 
   /* ---------- Reveal ---------- */
   .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s cubic-bezier(0.2,0.8,0.2,1), transform 0.8s cubic-bezier(0.2,0.8,0.2,1); }
@@ -558,7 +557,7 @@
 </section>
 
 <footer class="wrap">
-  Jona — 2026 · <span class="ph">Platzhalter: E-Mail, Links und Fotos noch eintragen</span>
+  Jona — 2026 · <a href="datenschutz.html">Datenschutz</a> · <span class="ph">Platzhalter: E-Mail, Links und Fotos noch eintragen</span>
 </footer>
 
 <script>
