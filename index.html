@@ -201,6 +201,7 @@
   }
   .photo svg { width: 30px; height: 30px; opacity: 0.65; }
   .photo span { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.04em; }
+  .photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
 
   /* ---------- Hero ---------- */
   .hero {
@@ -421,25 +422,27 @@
     <div class="photo">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="9" r="3.2"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>
       <span>Portrait-Foto</span>
+      <img src="images/portrait.jpg" alt="Portrait von Jona" onerror="this.remove()">
     </div>
   </div>
 </header>
 
 <section id="about" class="wrap">
   <div class="head reveal">
-    <h2>Noch am Anfang — aber neugierig.</h2>
+    <h2>Wer bin ich?</h2>
   </div>
   <div class="about-grid">
     <div class="about-photo glass sheen reveal">
       <div class="photo">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="m3 17 5-4 4 3 3-2 6 5"/></svg>
         <span>Foto von mir / beim Drehen</span>
+        <img src="images/about.jpg" alt="Jona beim Drehen" onerror="this.remove()">
       </div>
     </div>
     <div class="about-text glass sheen reveal">
-      <p>Ich bin im Gap Year in der Nähe von Köln und probiere viel aus. Das meiste, was ich kann, habe ich mir <strong>selbst beigebracht</strong> — durch Tutorials, eigene Projekte und viel Trial and Error.</p>
-      <p>Angefangen hat es mit dem <strong>Filmen</strong>: Kamera, Schnitt, Farbe. Daraus ist die Lust gewachsen, auch eigene <strong>kleine Tools und Websites</strong> zu programmieren und Abläufe zu automatisieren. Ich bin noch lange nicht fertig damit — genau das macht es spannend.</p>
-      <p>Was ich suche, ist eine Stelle oder ein Projekt, bei dem ich <strong>dazulernen</strong> und meine Sachen an echten Aufgaben weiterentwickeln kann.</p>
+      <p>Ich bin im Gap Year in der Nähe von Köln und probiere viel aus. Das meiste, was ich machen kann, habe ich mir <strong>selbst beigebracht</strong> — durch Tutorials, eigene Projekte und viele Versuche.</p>
+      <p>Angefangen hat es mit dem <strong>Filmen</strong>: Kamera, Schnitt, Color Grading, Animation.... Daher  kamm dann der Wunsch, auch eigene <strong>kleine Tools und Websites</strong> zu programmieren und Abläufe zu automatisieren. Ich bin noch lange nicht da wo ich einmal sein möchte.</p>
+      <p>Was ich suche, ist eine Stelle oder ein Projekt, bei dem ich <strong>dazulernen</strong> und meine Sachen an echten Projekten weiterentwickeln kann.</p>
     </div>
   </div>
 </section>
@@ -453,9 +456,9 @@
     <div class="skill glass sheen reveal">
       <div class="icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 6h12v12H2z"/><path d="M14 9l8-3v12l-8-3"/></svg></div>
       <h3>Filmen & Schnitt</h3>
-      <p>Drehen mit der Sony FX3 und Bearbeiten in DaVinci Resolve — ich lerne gerade, Farbe und Look gezielt zu setzen.</p>
+      <p>Drehen mit der Sony A7 II und Bearbeiten in DaVinci Resolve — akutell liegt der Fokus darauf, einen fokusierten Workflow zu entwickeln.</p>
       <div class="tags">
-        <span class="tag">Sony FX3</span>
+        <span class="tag">Sony A7 II</span>
         <span class="tag">DaVinci Resolve</span>
         <span class="tag">Color Grading</span>
       </div>
@@ -463,7 +466,7 @@
     <div class="skill glass sheen reveal">
       <div class="icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 6l-6 6 6 6M16 6l6 6-6 6"/></svg></div>
       <h3>Web-Development</h3>
-      <p>Kleine Web-Apps mit React und Firebase. Ich baue Sachen, die ich selbst nutze, und lerne dabei das Handwerk.</p>
+      <p>Websites mit KI-Unterstützung programmieren, Backend verstehen und Lernen beim Entwickeln.</p>
       <div class="tags">
         <span class="tag">React</span>
         <span class="tag">TypeScript</span>
@@ -473,10 +476,10 @@
     <div class="skill glass sheen reveal">
       <div class="icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></div>
       <h3>Automatisierung</h3>
-      <p>Erste Schritte mit Make.com und Python, um wiederkehrende Aufgaben rund ums Video abzunehmen.</p>
+      <p>Erste Entwicklungen mit Claude AI, um wiederkehrende Aufgaben rund um Videogestaltung zu automatisieren.</p>
       <div class="tags">
-        <span class="tag">Make.com</span>
-        <span class="tag">Python</span>
+        <span class="tag">Claude AI</span>
+        <span class="tag">Remotion & Hyperframes</span>
         <span class="tag">Workflows</span>
       </div>
     </div>
@@ -485,14 +488,15 @@
 
 <section id="work" class="wrap">
   <div class="head reveal">
-    <h2>Sachen, die ich gebaut habe.</h2>
-    <p>Übungsprojekte, an denen ich Neues ausprobiert und gelernt habe. Foto-Platzhalter kannst du durch Screenshots ersetzen.</p>
+    <h2>Meine letzen Projekte</h2>
+    <p>Übungsprojekte, an denen ich Neues ausprobiert und gelernt habe.</p>
   </div>
   <div class="work-grid">
     <a href="#" class="project glass sheen reveal">
       <div class="project-thumb"><div class="photo">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="m3 17 5-4 4 3 3-2 6 5"/></svg>
         <span>Screenshot LifeOS</span>
+        <img src="images/lifeos.jpg" alt="LifeOS" onerror="this.remove()">
       </div></div>
       <div class="pbody">
         <div class="ptop"><span class="pnum">01</span><span class="parrow"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
@@ -505,11 +509,12 @@
       <div class="project-thumb"><div class="photo">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="m3 17 5-4 4 3 3-2 6 5"/></svg>
         <span>Still aus Animation</span>
+        <img src="images/animation.jpg" alt="Animationen mit Remotion" onerror="this.remove()">
       </div></div>
       <div class="pbody">
         <div class="ptop"><span class="pnum">02</span><span class="parrow"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
-        <h3>Lernvideos im Code</h3>
-        <p>Erklärvideos zu Physik, komplett mit Remotion programmiert. Spannend zu sehen, wie Code zu Bewegtbild wird.</p>
+        <h3>Animationen mit Remotion</h3>
+        <p>Verschiedene Animationen für Videos, komplett mit Remotion + Opus 4.8 generiert.</p>
         <div class="pstack"><span>Remotion</span><span>Animation</span></div>
       </div>
     </a>
@@ -517,6 +522,7 @@
       <div class="project-thumb"><div class="photo">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="m3 17 5-4 4 3 3-2 6 5"/></svg>
         <span>Screenshot Website</span>
+        <img src="images/website.jpg" alt="Website für eine Gemeinde" onerror="this.remove()">
       </div></div>
       <div class="pbody">
         <div class="ptop"><span class="pnum">03</span><span class="parrow"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
@@ -529,12 +535,13 @@
       <div class="project-thumb"><div class="photo">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="m3 17 5-4 4 3 3-2 6 5"/></svg>
         <span>Foto / Showreel</span>
+        <img src="images/videos.jpg" alt="Eigene Videos" onerror="this.remove()">
       </div></div>
       <div class="pbody">
         <div class="ptop"><span class="pnum">04</span><span class="parrow"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
         <h3>Eigene Videos</h3>
-        <p>Cinematische Clips, an denen ich Kameraführung und Schnitt übe. Platz für dein Showreel oder einzelne Stills.</p>
-        <div class="pstack"><span>FX3</span><span>S-Log3</span><span>Schnitt</span></div>
+        <p>Cinematic Reels, an denen ich meine Kameraführung, Pacing und Colourgrading verbessere.</p>
+        <div class="pstack"><span>Sony A7 II </span><span>S-Log2</span><span>Pacing</span></div>
       </div>
     </a>
   </div>
@@ -543,21 +550,20 @@
 <section id="contact" class="wrap">
   <div class="contact glass sheen reveal">
     <h2>Sag gern Hallo.</h2>
-    <p>Ich freue mich über Werkstudent-Stellen, Projekte oder einfach Tipps, wie ich besser werden kann.</p>
+    <p>Ich freue mich über Praktikumsstellen, Projekte und andere Möglichkeiten meine Fähigkeiten weiterzuentwickeln.</p>
     <div class="contact-actions">
-      <a href="mailto:DEINE-EMAIL@example.com" class="btn btn-primary">
+      <a href="mailto:Jona.Klassen@web.de" class="btn btn-primary">
         <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>
         E-Mail schreiben
       </a>
-      <a href="#" class="btn btn-ghost">YouTube</a>
-      <a href="#" class="btn btn-ghost">Instagram</a>
-      <a href="#" class="btn btn-ghost">GitHub</a>
+      <a href="https://www.youtube.com/@JonaKlassen" class="btn btn-ghost" target="_blank">YouTube</a>
+      <a href="https://www.instagram.com/kla_jona.video/" class="btn btn-ghost" target="_blank">Instagram</a>
     </div>
   </div>
 </section>
 
 <footer class="wrap">
-  Jona — 2026 · <a href="datenschutz.html">Datenschutz</a> · <span class="ph">Platzhalter: E-Mail, Links und Fotos noch eintragen</span>
+  Jona — 2026 · <a href="datenschutz.html">Datenschutz</a> · <span class="ph">Jona.Klassen@web.de</span>
 </footer>
 
 <script>
