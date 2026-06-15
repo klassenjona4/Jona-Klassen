@@ -365,9 +365,9 @@
   /* ---------- Responsive ---------- */
   @media (max-width: 860px) {
     .hero { grid-template-columns: 1fr; gap: 40px; padding-top: 120px; min-height: auto; }
-    .hero-photo { max-width: 340px; aspect-ratio: 4 / 3; }
+    .hero-photo { max-width: 340px; justify-self: center; }
     .about-grid { grid-template-columns: 1fr; }
-    .about-photo .photo { min-height: 220px; }
+    .about-photo .photo { aspect-ratio: 4 / 3; height: auto; min-height: 0; }
     .work-grid { grid-template-columns: 1fr; }
     .navlinks { display: none; }
     .nav-highlight { display: none; }
@@ -415,7 +415,7 @@
       <span class="chip">Filmen & Schnitt</span>
       <span class="chip">Web-Development</span>
       <span class="chip">Automatisierung</span>
-      <span class="chip">Ausdauersport</span>
+      <span class="chip"></span>
     </div>
   </div>
   <div class="hero-photo glass sheen reveal">
@@ -440,9 +440,9 @@
       </div>
     </div>
     <div class="about-text glass sheen reveal">
-      <p>Ich bin im Gap Year in der Nähe von Köln und probiere viel aus. Das meiste, was ich machen kann, habe ich mir <strong>selbst beigebracht</strong> — durch Tutorials, eigene Projekte und viele Versuche.</p>
-      <p>Angefangen hat es mit dem <strong>Filmen</strong>: Kamera, Schnitt, Color Grading, Animation.... Daher  kamm dann der Wunsch, auch eigene <strong>kleine Tools und Websites</strong> zu programmieren und Abläufe zu automatisieren. Ich bin noch lange nicht da wo ich einmal sein möchte.</p>
-      <p>Was ich suche, ist eine Stelle oder ein Projekt, bei dem ich <strong>dazulernen</strong> und meine Sachen an echten Projekten weiterentwickeln kann.</p>
+      <p>Ich bin in der 11. Klasse und mache parallel mein Abiturequivalent in Irland. (Irish Leaving Certificate) . Ich bin sehr amitioniert und bringe mir gerne Dinge <strong>selbst bei</strong> — durch Tutorials, eigene Projekte und viele Versuche.</p>
+      <p>Angefangen hat es mit dem <strong>Filmen</strong>: Kamera, Schnitt, Color Grading, Animation.... Daher  kamm dann der Wunsch, auch eigene <strong>kleine Tools und Websites</strong> zu programmieren und Abläufe zu automatisieren. Aber ich bin noch lange nicht da wo ich einmal sein möchte.</p>
+      <p>Was ich suche, ist eine Stelle oder ein Projekt, bei dem ich <strong>dazulernen</strong> und meine Sachen an echten Projekten weiterentwickeln kann. Da könnten <strong>Sie</strong> mir helfen! </p>
     </div>
   </div>
 </section>
@@ -450,7 +450,7 @@
 <section id="skills" class="wrap">
   <div class="head reveal">
     <h2>Womit ich mich beschäftige.</h2>
-    <p>Drei Bereiche, in die ich mich selbst eingearbeitet habe — Stück für Stück, und immer noch am Lernen.</p>
+    <p>Drei Bereiche, in die ich mich selbst eingearbeitet habe — Stück für Stück, und jeden Tag ein bisschen besser.</p>
   </div>
   <div class="skills-grid">
     <div class="skill glass sheen reveal">
@@ -476,7 +476,7 @@
     <div class="skill glass sheen reveal">
       <div class="icn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></div>
       <h3>Automatisierung</h3>
-      <p>Erste Entwicklungen mit Claude AI, um wiederkehrende Aufgaben rund um Videogestaltung zu automatisieren.</p>
+      <p>Erste Umsetzungen mit Claude AI, um wiederkehrende Aufgaben rund um Videogestaltung zu automatisieren.</p>
       <div class="tags">
         <span class="tag">Claude AI</span>
         <span class="tag">Remotion & Hyperframes</span>
@@ -492,20 +492,20 @@
     <p>Übungsprojekte, an denen ich Neues ausprobiert und gelernt habe.</p>
   </div>
   <div class="work-grid">
-    <a href="#" class="project glass sheen reveal">
+    <a href="https://www.instagram.com/feg.bonn/" target="_blank" rel="noopener" class="project glass sheen reveal">
       <div class="project-thumb"><div class="photo">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="m3 17 5-4 4 3 3-2 6 5"/></svg>
-        <span>Screenshot LifeOS</span>
-        <img src="images/lifeos.jpg" alt="LifeOS" onerror="this.remove()">
+        <span>Screenshot Social Media</span>
+        <img src="images/social.jpg" alt="Social Media für meine Gemeinde" onerror="this.remove()">
       </div></div>
       <div class="pbody">
         <div class="ptop"><span class="pnum">01</span><span class="parrow"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
-        <h3>LifeOS</h3>
-        <p>Eine kleine App, mit der ich Training, Schlaf und Lernen für mich selbst organisiere. Mein größtes Lernprojekt bisher.</p>
-        <div class="pstack"><span>React</span><span>Firebase</span><span>PWA</span></div>
+        <h3>Social Media für meine Gemeinde</h3>
+        <p>Ich filme und gestalte Inhalte für die sozialen Medien meiner Kirchengemeinde.</p>
+        <div class="pstack"><span>Social Media</span><span>Content</span><span>Community</span></div>
       </div>
     </a>
-    <a href="#" class="project glass sheen reveal">
+    <a href="https://mega.nz/folder/OxAFxTBB#UNUjStl_NGXW7J1ZWer5aw" target="_blank" rel="noopener" class="project glass sheen reveal">
       <div class="project-thumb"><div class="photo">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="m3 17 5-4 4 3 3-2 6 5"/></svg>
         <span>Still aus Animation</span>
@@ -518,7 +518,7 @@
         <div class="pstack"><span>Remotion</span><span>Animation</span></div>
       </div>
     </a>
-    <a href="#" class="project glass sheen reveal">
+    <a href="https://bantrychristianfellowship.ie/" target="_blank" rel="noopener" class="project glass sheen reveal">
       <div class="project-thumb"><div class="photo">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="m3 17 5-4 4 3 3-2 6 5"/></svg>
         <span>Screenshot Website</span>
@@ -531,7 +531,7 @@
         <div class="pstack"><span>HTML</span><span>Firebase</span></div>
       </div>
     </a>
-    <a href="#" class="project glass sheen reveal">
+    <a href="videos.html" class="project glass sheen reveal">
       <div class="project-thumb"><div class="photo">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="m3 17 5-4 4 3 3-2 6 5"/></svg>
         <span>Foto / Showreel</span>
