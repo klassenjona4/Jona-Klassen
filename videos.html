@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Eigene Videos — Jona</title>
+<style>
+  :root {
+    --text: #232733;
+    --text-muted: #565d6e;
+    --text-dim: #8b91a0;
+    --accent: #5b7cfa;
+    --glass-bg: rgba(255, 255, 255, 0.5);
+    --glass-bg-hover: rgba(255, 255, 255, 0.74);
+    --glass-border: rgba(255, 255, 255, 0.7);
+    --glass-shadow: 0 12px 40px rgba(80, 100, 150, 0.13);
+    --glass-shadow-hover: 0 18px 54px rgba(80, 100, 150, 0.2);
+    --radius: 24px;
+    --radius-sm: 16px;
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --mono: ui-monospace, 'SF Mono', SFMono-Regular, 'Segoe UI Mono', 'Cascadia Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+    --maxw: 1080px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font);
+    color: var(--text);
+    line-height: 1.6;
+    letter-spacing: -0.011em;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    background: linear-gradient(135deg, #eef2f8 0%, #e9eef6 40%, #f0ecf6 100%);
+    min-height: 100vh;
+  }
+
+  /* ---------- Background (matches index) ---------- */
+  .aurora { position: fixed; inset: 0; z-index: -3; overflow: hidden; }
+  .blob { position: absolute; border-radius: 50%; filter: blur(70px); will-change: transform; }
+  .blob-1 { width: 48vw; height: 48vw; top: -10vw; left: -6vw; background: radial-gradient(circle, rgba(120,165,255,0.55), transparent 66%); animation: drift1 28s ease-in-out infinite alternate; }
+  .blob-2 { width: 42vw; height: 42vw; top: 6vw; right: -8vw; background: radial-gradient(circle, rgba(255,190,150,0.5), transparent 66%); animation: drift2 34s ease-in-out infinite alternate; }
+  .blob-3 { width: 46vw; height: 46vw; bottom: -16vw; left: 24vw; background: radial-gradient(circle, rgba(170,210,180,0.5), transparent 66%); animation: drift3 31s ease-in-out infinite alternate; }
+  @keyframes drift1 { to { transform: translate(12vw, 9vw) scale(1.14); } }
+  @keyframes drift2 { to { transform: translate(-11vw, 13vw) scale(1.1); } }
+  @keyframes drift3 { to { transform: translate(7vw, -11vw) scale(1.18); } }
+  .cursor-glow { position: fixed; z-index: -2; top: 0; left: 0; width: 620px; height: 620px; margin: -310px 0 0 -310px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.75), rgba(150,180,255,0.18) 42%, transparent 68%); pointer-events: none; transition: transform 0.25s cubic-bezier(0.2,0.8,0.2,1); will-change: transform; }
+  .frost { position: fixed; inset: 0; z-index: -1; backdrop-filter: blur(48px) saturate(1.25); -webkit-backdrop-filter: blur(48px) saturate(1.25); background: rgba(244,247,251,0.32); pointer-events: none; }
+
+  /* ---------- Glass ---------- */
+  .glass {
+    position: relative;
+    background: var(--glass-bg);
+    backdrop-filter: blur(24px) saturate(1.7);
+    -webkit-backdrop-filter: blur(24px) saturate(1.7);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius);
+    box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255,255,255,0.6);
+    overflow: hidden;
+  }
+  .sheen::before { content: ''; position: absolute; inset: 0; border-radius: inherit; background: radial-gradient(320px circle at var(--mx,50%) var(--my,0%), rgba(255,255,255,0.55), transparent 58%); opacity: 0; transition: opacity 0.4s ease; pointer-events: none; z-index: 2; }
+  .sheen:hover::before { opacity: 1; }
+
+  /* ---------- Layout ---------- */
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+
+  .topbar { padding: 40px 0 0; }
+  .back { display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 450; }
+  .back:hover { color: var(--text); }
+
+  header.hero { padding: 44px 0 40px; }
+  header.hero h1 { font-size: clamp(2.2rem, 6vw, 3.4rem); font-weight: 600; letter-spacing: -0.035em; line-height: 1.04; margin-bottom: 14px; }
+  header.hero p { color: var(--text-muted); font-size: clamp(1rem, 2vw, 1.15rem); max-width: 520px; }
+
+  /* ---------- Video grid ---------- */
+  .video-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; padding-bottom: 90px; }
+  .vcard { padding: 14px 14px 24px; display: flex; flex-direction: column; transition: transform 0.4s cubic-bezier(0.2,0.8,0.2,1), box-shadow 0.4s ease, background 0.4s ease; }
+  .vcard:hover { transform: translateY(-5px); box-shadow: var(--glass-shadow-hover), inset 0 1px 0 rgba(255,255,255,0.6); background: var(--glass-bg-hover); }
+  .vframe { position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: var(--radius-sm); overflow: hidden; background: rgba(255,255,255,0.34); border: 1px solid var(--glass-border); margin-bottom: 18px; }
+  .vframe iframe, .vframe video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; object-fit: cover; background: #000; }
+  .vposter { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+  /* play overlay (click-to-load) */
+  .vplay { position: absolute; inset: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: transparent; border: 0; cursor: pointer; z-index: 1; }
+  .vplay .disc { width: 64px; height: 64px; border-radius: 50%; background: rgba(255,255,255,0.85); box-shadow: 0 6px 20px rgba(80,100,150,0.25); display: flex; align-items: center; justify-content: center; transition: transform 0.25s ease, background 0.25s ease; }
+  .vplay:hover .disc { transform: scale(1.08); background: #fff; }
+  .vplay .disc svg { width: 24px; height: 24px; margin-left: 3px; color: var(--accent); }
+  .vhint { position: absolute; left: 0; right: 0; bottom: 0; padding: 7px 12px; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.03em; color: #fff; background: linear-gradient(transparent, rgba(0,0,0,0.55)); text-align: center; pointer-events: none; }
+
+  /* empty placeholder */
+  .vempty { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: var(--text-dim); border: 1.5px dashed rgba(120,140,180,0.4); border-radius: var(--radius-sm); }
+  .vempty svg { width: 30px; height: 30px; opacity: 0.65; }
+  .vempty span { font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.04em; }
+
+  .vbody { padding: 0 12px; }
+  .vbody h2 { font-size: 1.18rem; font-weight: 550; letter-spacing: -0.02em; margin-bottom: 6px; }
+  .vbody p { color: var(--text-muted); font-size: 0.95rem; }
+
+  footer { padding: 30px 0 56px; text-align: center; color: var(--text-dim); font-size: 13px; }
+  footer a { color: var(--text-muted); text-decoration: none; }
+  footer a:hover { color: var(--text); }
+
+  @media (max-width: 760px) {
+    .video-grid { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .blob { animation: none; }
+    .cursor-glow { transition: none; }
+    html { scroll-behavior: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="aurora">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+<div class="cursor-glow" id="glow"></div>
+<div class="frost"></div>
+
+<div class="topbar wrap">
+  <a class="back" href="index.html">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+    Zurück zur Startseite
+  </a>
+</div>
+
+<header class="hero wrap">
+  <h1>Eigene Videos</h1>
+  <p>Cinematic Reels und Clips, an denen ich Kameraführung, Pacing und Color Grading übe.</p>
+</header>
+
+<main class="video-grid wrap" id="grid"></main>
+
+<footer class="wrap">
+  Jona — 2026 · <a href="index.html">Startseite</a> · <a href="datenschutz.html">Datenschutz</a>
+</footer>
+
+<script>
+  /* =========================================================
+     VIDEOS HINZUFÜGEN — nur diese Liste bearbeiten.
+     Pro Video ein Objekt { ... } in der Liste.
+
+     YouTube (empfohlen):
+       { type: 'youtube', id: 'ABC123xyz', title: 'Titel', desc: 'Kurzbeschreibung', poster: 'images/clip1.jpg' }
+       - id  = der Teil nach "v=" in der YouTube-URL
+               (youtube.com/watch?v=ABC123xyz  ->  id: 'ABC123xyz')
+       - poster (optional) = lokales Vorschaubild. Wird angezeigt,
+         BEVOR man klickt. Erst beim Klick wird YouTube geladen.
+         Ohne poster erscheint ein neutraler Play-Platzhalter.
+
+     Lokale MP4-Datei (nur fuer kurze Clips, Datei in Ordner "videos"):
+       { type: 'local', src: 'videos/clip.mp4', poster: 'images/clip.jpg', title: 'Titel', desc: '' }
+
+     Leeres Feld id: '' oder src: '' => zeigt einen Platzhalter.
+     ========================================================= */
+  const videos = [
+    { type: 'youtube', id: '', title: 'Showreel 2026', desc: 'Platzhalter — hier kommt dein Showreel.' },
+    { type: 'youtube', id: '', title: 'Reel / Kurzfilm', desc: 'Platzhalter — Video-Link einfuegen.' },
+    { type: 'youtube', id: '', title: 'Projekt', desc: 'Platzhalter — Video-Link einfuegen.' },
+    { type: 'youtube', id: '', title: 'Projekt', desc: 'Platzhalter — Video-Link einfuegen.' }
+  ];
+
+  const PLAY = '<span class="disc"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>';
+  const EMPTY = '<div class="vempty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 10l4.5-2.5v9L15 14"/><rect x="3" y="6" width="12" height="12" rx="2"/></svg><span>Video-Link einfuegen</span></div>';
+
+  function esc(s) { return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+  const grid = document.getElementById('grid');
+
+  videos.forEach(v => {
+    const card = document.createElement('article');
+    card.className = 'vcard glass sheen';
+
+    const frame = document.createElement('div');
+    frame.className = 'vframe';
+
+    if (v.type === 'youtube' && v.id) {
+      const poster = v.poster ? '<img class="vposter" src="' + esc(v.poster) + '" alt="" onerror="this.remove()">' : '';
+      frame.innerHTML = poster +
+        '<button class="vplay" type="button" aria-label="Video abspielen">' + PLAY + '</button>' +
+        '<span class="vhint">Klick lädt das Video von YouTube</span>';
+      frame.querySelector('.vplay').addEventListener('click', () => {
+        frame.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(v.id) +
+          '?autoplay=1&rel=0" title="' + esc(v.title) + '" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>';
+      });
+    } else if (v.type === 'local' && v.src) {
+      frame.innerHTML = '<video controls preload="none"' + (v.poster ? ' poster="' + esc(v.poster) + '"' : '') +
+        ' src="' + esc(v.src) + '"></video>';
+    } else {
+      frame.innerHTML = EMPTY;
+    }
+
+    const body = document.createElement('div');
+    body.className = 'vbody';
+    body.innerHTML = '<h2>' + esc(v.title || 'Ohne Titel') + '</h2>' + (v.desc ? '<p>' + esc(v.desc) + '</p>' : '');
+
+    card.appendChild(frame);
+    card.appendChild(body);
+    grid.appendChild(card);
+  });
+
+  /* background glow + sheen (same feel as the homepage) */
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const glow = document.getElementById('glow');
+  let gx = innerWidth / 2, gy = innerHeight / 2, tx = gx, ty = gy;
+  addEventListener('pointermove', e => { tx = e.clientX; ty = e.clientY; });
+  function loop() { gx += (tx - gx) * 0.12; gy += (ty - gy) * 0.12; glow.style.transform = 'translate(' + gx + 'px,' + gy + 'px)'; requestAnimationFrame(loop); }
+  if (!reduce) loop(); else glow.style.transform = 'translate(' + gx + 'px,' + gy + 'px)';
+
+  if (!reduce) {
+    document.querySelectorAll('.sheen').forEach(el => {
+      el.addEventListener('pointermove', e => {
+        const r = el.getBoundingClientRect();
+        el.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+        el.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+      });
+    });
+  }
+</script>
+
+</body>
+</html>
